@@ -793,6 +793,7 @@ monitoring:
           cypress_keycloak_test_enable: "true"
           cypress_keycloak_username: "cypress"
           cypress_keycloak_password: "tnr_w!G33ZyAt@C8"
+<<<<<<< HEAD
 
 neuvector:
   enabled: false
@@ -805,6 +806,8 @@ neuvector:
         artifacts: true
         envs:
           cypress_url: https://neuvector.bigbang.dev
+=======
+>>>>>>> a1e41cf4... Add values for an sso test for the monitoring package
 
 twistlock:
   enabled: true
