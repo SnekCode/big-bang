@@ -285,5 +285,8 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
 
 {{- /* Returns the signing cert with headers from the SAML metadata */ -}}
 {{- define "sso.saml.cert.withheaders" -}}
-  {{- printf "-----BEGIN CERTIFICATE-----\n%s\n-----END CERTIFICATE-----" (include "sso.saml.cert" .) -}}
+  {{- $cert := include "sso.saml.cert" . -}}
+  {{- if $cert -}}
+    {{- printf "-----BEGIN CERTIFICATE-----\n%s\n-----END CERTIFICATE-----" $cert -}}
+  {{- end -}}
 {{- end -}}
