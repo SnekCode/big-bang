@@ -225,7 +225,7 @@ minio:
 {{- end }}
 
 global:
-  {{- if and .Values.addons.gitlab.sso.enabled (dig "certificateAuthority" "secretName" .Values.sso.secretName .Values.sso) }}
+  {{- if and .Values.addons.gitlab.sso.enabled (default (dig "certificateAuthority" "secretName" nil .Values.sso) .Values.sso.secretName) }}
   certificates:
     customCAs:
       - secret: ca-certs-australian-defence-organisation-cross-cert-chain
