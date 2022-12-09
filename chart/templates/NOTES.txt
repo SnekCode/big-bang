@@ -274,6 +274,7 @@ DEPRECATION NOTICE:
         # "claims_mail" was moved to "sso.oidc.claims.email"
         claims_mail: {{ .logging.sso.claims_mail }}
         {{- end }}
+    {{- end }}
     {{- if coalesce .monitoring.sso.grafana.auth_url .monitoring.sso.grafana.token_url .monitoring.sso.grafana.api_url }}
     monitoring:
       sso:

@@ -76,7 +76,7 @@ sso:
     groupsAttribute: "{{ default (dig "saml" "attributes" "group" "groups" .Values.sso) (dig "sso" "idp_data" "groups" "" $nexusValues) }}"
     validateResponseSignature: "true"
     validateAssertionSignature: "true"
-    idpMetadata: "{{ default (dig "saml" "metadata" "" .Values.sso) (dig "sso" "idp_data" "idpMetadata" "" $nexusValues) }}"
+    idpMetadata: '{{ default (dig "saml" "metadata" "" .Values.sso) (dig "sso" "idp_data" "idpMetadata" "" $nexusValues) }}'
   realm:
     - "NexusAuthenticatingRealm"
     - "NexusAuthorizingRealm"

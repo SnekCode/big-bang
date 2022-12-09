@@ -228,6 +228,9 @@ global:
   {{- if and .Values.addons.gitlab.sso.enabled (or (dig "certificateAuthority" "secretName" false .Values.sso) .Values.sso.secretName) }}
   certificates:
     customCAs:
+      {{- if or .Values.sso.secretName (dig "certificateAuthority" "secretName" false .Values.sso) }}
+      - secret: {{ default (dig "certificateAuthority" "secretName" "" .Values.sso) .Values.sso.secretName }}
+      {{- end }}
       - secret: ca-certs-australian-defence-organisation-cross-cert-chain
       - secret: ca-certs-australian-defence-organisation-direct-trust-chain
       - secret: ca-certs-boeing
@@ -258,9 +261,6 @@ global:
       - secret: ca-certs-dod-intermediate-and-issuing-ca-certs
       - secret: ca-certs-dod-trust-anchors-self-signed
       - secret: ca-certs-eca
-      {{- if or .Values.sso.secretName (dig "certificateAuthority" "secretName" false .Values.sso) }}
-      - secret: {{ default (dig "certificateAuthority" "secretName" "" .Values.sso) .Values.sso.secretName }}
-      {{- end -}}
   {{end}}
 
   # added to help with Gitlab sub-chart configuration
