@@ -47,7 +47,7 @@ cr:
         scopes:
         - openid
         - email
-        username_claim: {{ dig "attributes" "email" "email" .Values.sso }}
+        username_claim: {{ dig "oidc" "claims" "email" "email" .Values.sso }}
       {{- else }}
       strategy: token
       {{- end }}
