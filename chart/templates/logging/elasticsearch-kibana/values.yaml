@@ -36,7 +36,6 @@ sso:
   enabled: {{ .enabled }}
   client_id: {{ .client_id | quote }}
   client_secret: {{ .client_secret | default "no-secret" }}
-  {{- /* host and realm are not needed if issuer, auth_url, token_url, userinfo_url, jwkset_url, and endsession_url are all defined */ -}}
   oidc:
     host: {{ dig "oidc" "host" $.Values.sso.oidc.host . | quote }}
     realm: {{ default (include "sso.oidc.realm" $) (dig "oidc" "realm" $.Values.sso.oidc.realm .) | quote }}
