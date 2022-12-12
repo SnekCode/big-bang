@@ -311,6 +311,9 @@ grafana:
 
     auth.generic_oauth:
       enabled: {{ .Values.monitoring.sso.enabled }}
+      {{- if .Values.sso.name }}
+      name: {{ .Values.sso.name }}
+      {{- end }}
       client_id: {{ .Values.monitoring.sso.grafana.client_id }}
       client_secret: {{ .Values.monitoring.sso.grafana.client_secret }}
       scopes: {{ .Values.monitoring.sso.grafana.scopes | default "openid profile email" }}
