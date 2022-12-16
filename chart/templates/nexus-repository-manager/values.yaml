@@ -69,11 +69,11 @@ sso:
     {{- else }}
     entityId: "https://nexus.{{ $domainName }}/service/rest/v1/security/saml/metadata"
     {{- end }}
-    usernameAttribute: "{{ default (dig "saml" "attributes" "username" "username" .Values.sso) (dig "sso" "idp_data" "username" "" $nexusValues) }}"
-    firstNameAttribute: "{{ default (dig "saml" "attributes" "firstname" "firstName" .Values.sso) (dig "sso" "idp_data" "firstName" "" $nexusValues) }}"
-    lastNameAttribute: "{{ default (dig "saml" "attributes" "lastname" "lastName" .Values.sso) (dig "sso" "idp_data" "lastName" "" $nexusValues) }}"
-    emailAttribute: "{{ default (dig "saml" "attributes" "email" "email" .Values.sso) (dig "sso" "idp_data" "email" "" $nexusValues) }}"
-    groupsAttribute: "{{ default (dig "saml" "attributes" "group" "groups" .Values.sso) (dig "sso" "idp_data" "groups" "" $nexusValues) }}"
+    usernameAttribute: "{{ dig "sso" "idp_data" "username" "username" $nexusValues }}"
+    firstNameAttribute: "{{ dig "sso" "idp_data" "firstName" "firstName" $nexusValues }}"
+    lastNameAttribute: "{{ dig "sso" "idp_data" "lastName" "lastName" $nexusValues }}"
+    emailAttribute: "{{ dig "sso" "idp_data" "email" "email" $nexusValues }}"
+    groupsAttribute: "{{ dig "sso" "idp_data" "groups" "group" $nexusValues }}"
     validateResponseSignature: "true"
     validateAssertionSignature: "true"
     idpMetadata: '{{ default (dig "saml" "metadata" "" .Values.sso) (dig "sso" "idp_data" "idpMetadata" "" $nexusValues) }}'

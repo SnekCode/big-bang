@@ -45,11 +45,6 @@ To start using Big Bang, you will need to create your own Big Bang environment t
 | sso.saml.entityDescriptor | string | `"{{ .Values.sso.url }}/protocol/saml/descriptor"` | SAML entityDescriptor (metadata) path |
 | sso.saml.service | string | `"{{ .Values.sso.url }}/protocol/saml"` | SAML SSO Service path |
 | sso.saml.metadata | string | `nil` | Literal SAML XML metadata retrieved from `{{ .Values.sso.saml.entityDescriptor }}`.  Required for SSO in Nexus, Twistlock, or Sonarqube. |
-| sso.saml.attributes | object | `{"email":"email","groups":"groups","name":"name","username":"login"}` | Identity provider attributes that store metadata about the authenticated user. |
-| sso.saml.attributes.email | string | `"email"` | IdP's SAML attribute name used for the user's email address. |
-| sso.saml.attributes.name | string | `"name"` | IdP's SAML attribute name used for the user's full name |
-| sso.saml.attributes.username | string | `"login"` | IdP's SAML attribute name used for the username |
-| sso.saml.attributes.groups | string | `"groups"` | IdP's SAML attribute name used for the user's groups or roles |
 | sso.oidc | object | `{"authorization":"{{ .Values.sso.url }}/protocol/openid-connect/auth","claims":{"email":"email","groups":"groups","name":"name","username":"preferred_username"},"endSession":"{{ .Values.sso.url }}/protocol/openid-connect/logout","jwks":null,"jwksUri":"{{ .Values.sso.url }}/protocol/openid-connect/certs","token":"{{ .Values.sso.url }}/protocol/openid-connect/token","userinfo":"{{ .Values.sso.url }}/protocol/openid-connect/userinfo"}` | OIDC endpoints can be retrieved from `{{ .Values.sso.url }}/.well-known/openid-configuration` |
 | sso.oidc.authorization | string | `"{{ .Values.sso.url }}/protocol/openid-connect/auth"` | OIDC authorization path |
 | sso.oidc.endSession | string | `"{{ .Values.sso.url }}/protocol/openid-connect/logout"` | OIDC logout / end session path |

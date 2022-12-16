@@ -59,6 +59,6 @@ sso:
   idp_url: {{ default (include "sso.saml.service" .) (tpl (default "" .Values.twistlock.sso.idp_url) .) }}
   {{- $console := first (dig "istio" "console" "hosts" (list (printf "twistlock.%s" $domainName)) .Values.twistlock.values) }}
   console_url: {{ tpl (default (printf "https://%s" $console) .Values.twistlock.sso.console_url) . }}
-  groups: {{ default (dig "saml" "attributes" "groups" "" .Values.sso) .Values.twistlock.sso.groups }}
+  groups: {{ .Values.twistlock.sso.groups }}
   cert: {{ default (include "sso.saml.cert.withheaders" .) .Values.twistlock.sso.cert | quote }}
 {{- end -}}

@@ -69,16 +69,7 @@ sso:
     service: "{{ .Values.sso.url }}/protocol/saml"
     # -- Literal SAML XML metadata retrieved from `{{ .Values.sso.saml.entityDescriptor }}`.  Required for SSO in Nexus, Twistlock, or Sonarqube.
     metadata:
-    # -- Identity provider attributes that store metadata about the authenticated user.
-    attributes:
-      # -- IdP's SAML attribute name used for the user's email address.
-      email: email
-      # -- IdP's SAML attribute name used for the user's full name
-      name: name
-      # -- IdP's SAML attribute name used for the username
-      username: login
-      # -- IdP's SAML attribute name used for the user's groups or roles
-      groups: groups
+    # NOTE: SAML attribute names may vary by package.  Use the package values to setup attribute names
 
   # -- OIDC endpoints can be retrieved from `{{ .Values.sso.url }}/.well-known/openid-configuration`
   oidc:
@@ -765,6 +756,9 @@ twistlock:
     # Possible values: okta, gsuite, ping, shibboleth, azure, adfs
     provider_type: "shibboleth"
 
+    # -- Groups attribute (optional)
+    groups: ""
+
   # -- Values to passthrough to the twistlock chart: https://repo1.dso.mil/platform-one/big-bang/apps/security-tools/twistlock.git
   values: {}
 
@@ -1034,6 +1028,22 @@ addons:
         # Nexus saml URL. example: "https://nexus.bigbang.dev/service/rest/v1/security/saml/metadata"
         entityId: ""
 
+        # -- IdP Field Mappings
+        # -- NXRM username attribute
+        username: ""
+
+        # -- NXRM firstname attribute (optional)
+        firstName: ""
+
+        # -- NXRM lastname attribute (optional)
+        lastName: ""
+
+        # -- NXRM email attribute (optional)
+        email: ""
+
+        # -- NXRM groups attribute (optional)
+        groups: ""
+
       # -- NXRM Role
       role:
         # the id must match the Keycloak group name (case sensitive)
@@ -1074,6 +1084,18 @@ addons:
 
       # -- SonarQube SAML client ID
       client_id: ""
+
+      # -- SonarQube login sso attribute.
+      login: login
+
+      # -- SonarQube name sso attribute.
+      name: name
+
+      # -- SonarQube email sso attribute.
+      email: email
+
+      # -- (optional) SonarQube group sso attribute.
+      group: group
 
     database:
       # -- Hostname of a pre-existing PostgreSQL database to use for SonarQube.
@@ -1150,12 +1172,15 @@ addons:
       gateway: ""
 
     sso:
-      # -- Toggle OIDC SSO for Anchore on and off.
+      # -- Toggle SAML SSO for Anchore on and off.
       # Enabling this option will auto-create any required secrets (Note: SSO requires an Enterprise license).
       enabled: false
 
-      # -- Anchore OIDC client ID
+      # -- Anchore SAML client ID
       client_id: ""
+
+      # -- Anchore SAML client role attribute
+      role_attribute: ""
 
     database:
       # -- Hostname of a pre-existing PostgreSQL database to use for Anchore.
