@@ -64,16 +64,16 @@ license_key: "{{ $nexusValues.license_key }}"
 sso:
   enabled: {{ $nexusValues.sso.enabled }}
   idp_data:
-    {{- if (dig "sso" "idp_data" "entityId" false $nexusValues) }}
+    {{- if $nexusValues.sso.idp_data.entityId }}
     entityId: {{ $nexusValues.sso.idp_data.entityId }}
     {{- else }}
     entityId: "https://nexus.{{ $domainName }}/service/rest/v1/security/saml/metadata"
     {{- end }}
-    usernameAttribute: "{{ dig "sso" "idp_data" "username" "username" $nexusValues }}"
-    firstNameAttribute: "{{ dig "sso" "idp_data" "firstName" "firstName" $nexusValues }}"
-    lastNameAttribute: "{{ dig "sso" "idp_data" "lastName" "lastName" $nexusValues }}"
-    emailAttribute: "{{ dig "sso" "idp_data" "email" "email" $nexusValues }}"
-    groupsAttribute: "{{ dig "sso" "idp_data" "groups" "group" $nexusValues }}"
+    usernameAttribute: "{{ default "username" $nexusValues.sso.idp_data.username }}"
+    firstNameAttribute: "{{ default "firstName" $nexusValues.sso.idp_data.firstName }}"
+    lastNameAttribute: "{{ default "lastName" $nexusValues.sso.idp_data.lastName }}"
+    emailAttribute: "{{ default "email" $nexusValues.sso.idp_data.email }}"
+    groupsAttribute: "{{ default "groups" $nexusValues.sso.idp_data.groups }}"
     validateResponseSignature: "true"
     validateAssertionSignature: "true"
     idpMetadata: '{{ default (dig "saml" "metadata" "" .Values.sso) (dig "sso" "idp_data" "idpMetadata" "" $nexusValues) }}'
