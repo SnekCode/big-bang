@@ -1171,6 +1171,9 @@ addons:
     sso:
       enabled: false
       client_id: dev_00eb8904-5b88-4c68-ad67-cec0d2e07aa6_saml-sonarqube
+      login: login
+      name: name
+      email: email
     values:
       plugins:
         install: []
@@ -1298,6 +1301,13 @@ addons:
       enabled: false
       idp_data:
         entityId: "https://nexus.bigbang.dev/service/rest/v1/security/saml/metadata"
+        # -- IdP Field Mappings
+        # -- NXRM username attribute
+        username: "username"
+        firstName: "firstName"
+        lastName: "lastName"
+        email: "email"
+        groups: "groups"
       role:
         # id is the name of the Keycloak group (case sensitive)
         - id: "Nexus"

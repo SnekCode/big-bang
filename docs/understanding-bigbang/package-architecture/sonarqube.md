@@ -90,6 +90,9 @@ addons:
     sso:
       enabled: true
       client_id: ""
+      login: login
+      name: name
+      email: email
 ```
 
 ```mermaid
