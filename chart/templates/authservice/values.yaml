@@ -71,8 +71,8 @@ issuer_uri: {{ include "sso.url" . }}
 
 global:
   oidc:
-    host: {{ .Values.sso.oidc.host }}
-    realm: {{ default (include "sso.oidc.realm" .) .Values.sso.oidc.realm }}
+    host: {{ default (include "sso.host" .) .Values.sso.oidc.host }}
+    realm: {{ default (include "sso.realm" .) .Values.sso.oidc.realm }}
 
   {{- if or .Values.sso.jwks_uri (dig "oidc" "jwksUri" false .Values.sso) }}
   jwks_uri: {{ include "sso.oidc.jwksuri" . | quote }}

@@ -221,6 +221,16 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
   {{- regexReplaceAll "-bb.+$" (coalesce .Values.istio.git.semver .Values.istio.git.tag .Values.istio.git.branch) "" -}}
 {{- end -}}
 
+{{- /* Returns an SSO host */ -}}
+{{- define "sso.host" -}}
+  {{- coalesce .Values.sso.oidc.host (regexReplaceAll ".*//([^/]*)/?.*" .Values.sso.url "${1}") -}}
+{{- end -}}
+
+{{- /* Returns an SSO realm */ -}}
+{{- define "sso.realm" -}}
+  {{- coalesce .Values.sso.oidc.realm (regexReplaceAll ".*/realms/([^/]*)" .Values.sso.url "${1}") (regexReplaceAll "\\W+" .Values.sso.name "") -}}
+{{- end -}}
+
 {{- /* Returns the SSO base URL */ -}}
 {{- define "sso.url" -}}
   {{- if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
@@ -279,11 +289,6 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
   {{- else -}}
     {{- tpl (dig "oidc" "endSession" (printf "%s/protocol/openid-connect/logout" (include "sso.url" .)) .Values.sso) . -}}
   {{- end -}}
-{{- end -}}
-
-{{- /* Returns an SSO realm (OIDC) */ -}}
-{{- define "sso.oidc.realm" -}}
-  {{- coalesce .Values.sso.oidc.realm (regexReplaceAll ".*/realms/([^/]*)" .Values.sso.url "${1}") (regexReplaceAll "\\W+" .Values.sso.name "") -}}
 {{- end -}}
 
 {{- /* Returns the single sign on service (SAML) */ -}}
