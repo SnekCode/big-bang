@@ -234,6 +234,8 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
 {{- define "sso.oidc.auth" -}}
   {{- if .Values.sso.auth_url -}}
     {{- tpl (default "" .Values.sso.auth_url) . -}}
+  {{- else if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "%s/protocol/openid-connect/auth" (include "sso.url" .) -}}
   {{- else -}}
     {{- tpl (dig "oidc" "authorization" (printf "%s/protocol/openid-connect/auth" (include "sso.url" .)) .Values.sso) . -}}
   {{- end -}}
@@ -243,6 +245,8 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
 {{- define "sso.oidc.token" -}}
   {{- if .Values.sso.token_url -}}
     {{- tpl (default "" .Values.sso.token_url) . -}}
+  {{- else if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "%s/protocol/openid-connect/token" (include "sso.url" .) -}}
   {{- else -}}
     {{- tpl (dig "oidc" "token" (printf "%s/protocol/openid-connect/token" (include "sso.url" .)) .Values.sso) . -}}
   {{- end -}}
@@ -250,13 +254,19 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
 
 {{- /* Returns the SSO userinfo url (OIDC) */ -}}
 {{- define "sso.oidc.userinfo" -}}
-  {{- tpl (dig "oidc" "userinfo" (printf "%s/protocol/openid-connect/userinfo" (include "sso.url" .)) .Values.sso) . -}}
+  {{- if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "%s/protocol/openid-connect/userinfo" (include "sso.url" .) -}}
+  {{- else -}}
+    {{- tpl (dig "oidc" "userinfo" (printf "%s/protocol/openid-connect/userinfo" (include "sso.url" .)) .Values.sso) . -}}
+  {{- end -}}
 {{- end -}}
 
 {{- /* Returns the SSO jwks url (OIDC) */ -}}
 {{- define "sso.oidc.jwksuri" -}}
   {{- if .Values.sso.jwks_uri -}}
     {{- tpl (default "" .Values.sso.jwks_uri) . -}}
+  {{- else if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "%s/protocol/openid-connect/certs" (include "sso.url" .) -}}
   {{- else -}}
     {{- tpl (dig "oidc" "jwksUri" (printf "%s/protocol/openid-connect/certs" (include "sso.url" .)) .Values.sso) . -}}
   {{- end -}}
@@ -264,7 +274,11 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
 
 {{- /* Returns the SSO end session url (OIDC) */ -}}
 {{- define "sso.oidc.endsession" -}}
-  {{- tpl (dig "oidc" "endSession" (printf "%s/protocol/openid-connect/logout" (include "sso.url" .)) .Values.sso) . -}}
+  {{- if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "%s/protocol/openid-connect/logout" (include "sso.url" .) -}}
+  {{- else -}}
+    {{- tpl (dig "oidc" "endSession" (printf "%s/protocol/openid-connect/logout" (include "sso.url" .)) .Values.sso) . -}}
+  {{- end -}}
 {{- end -}}
 
 {{- /* Returns an SSO realm (OIDC) */ -}}
@@ -274,12 +288,20 @@ bigbang.dev/istioVersion: {{ .Values.istio.oci.tag }}
 
 {{- /* Returns the single sign on service (SAML) */ -}}
 {{- define "sso.saml.service" -}}
-  {{- tpl (dig "saml" "service" (printf "%s/protocol/saml" (include "sso.url" .)) .Values.sso) . -}}
+  {{- if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "%s/protocol/saml" (include "sso.url" .) -}}
+  {{- else -}}
+    {{- tpl (dig "saml" "service" (printf "%s/protocol/saml" (include "sso.url" .)) .Values.sso) . -}}
+  {{- end -}}
 {{- end -}}
 
 {{- /* Returns the single sign on entity descriptor (SAML) */ -}}
 {{- define "sso.saml.descriptor" -}}
-  {{- tpl (dig "saml" "entityDescriptor" (printf "%s/descriptor" (include "sso.saml.service" .)) .Values.sso) . -}}
+  {{- if and .Values.sso.oidc.host .Values.sso.oidc.realm -}}
+    {{- printf "%s/descriptor" (include "sso.saml.service" .) -}}
+  {{- else -}}
+    {{- tpl (dig "saml" "entityDescriptor" (printf "%s/descriptor" (include "sso.saml.service" .)) .Values.sso) . -}}
+  {{- end -}}
 {{- end -}}
 
 {{- /* Returns the signing cert (no headers) from the SAML metadata */ -}}
