@@ -725,9 +725,9 @@ tempo:
 
 monitoring:
   enabled: true
-  git:
-    tag: ""
-    branch: "monitoring_sso_test"
+  # git:
+  #   tag: ""
+  #   branch: "monitoring_sso_test"
   sso:
     enabled: true
     prometheus:
