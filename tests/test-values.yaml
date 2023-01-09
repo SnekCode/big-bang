@@ -129,6 +129,7 @@ clusterAuditor:
       enabled: true
       cypress:
         envs:
+          cypress_keycloak_test_enable: "true"
           cypress_grafana_url: 'https://grafana.bigbang.dev'
           cypress_prometheus_url: 'https://prometheus.bigbang.dev'
           cypress_url: 'https://grafana.bigbang.dev/d/YBgRZG6Mz/opa-violations?orgId=1'
