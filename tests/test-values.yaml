@@ -116,6 +116,9 @@ kiali:
 
 clusterAuditor:
   enabled: true
+  git:
+    tag: ""
+    branch: "sso_test"
   values:
     resources:
       requests:
@@ -140,13 +143,6 @@ gatekeeper:
         requests:
           cpu: 100m
           memory: 256Mi
-  
-clusterAuditor:
-  enabled: true
-  git:
-    tag: ""
-    branch: "sso_test"
-
     violations:
       allowedCapabilities:
         parameters:
